@@ -6,7 +6,7 @@ logger = logging.get_logger(__name__)
 DEEPSEEK_PRETRAINED_CONFIG_ARCHIVE_MAP = {}
 class DeepseekV3Config(PretrainedConfig):
     r"""
-    This is the configuration class to store the configuration of a [`DeepseekV3Model`]. It is used to instantiate an DeepSeek
+    This is the configuration class to store the configuration of a [`DeepseekV3Model`]. It is used to instantiate a DeepSeek
     model according to the specified arguments, defining the model architecture. Instantiating a configuration with the
     defaults will yield a similar configuration to that of the DeepSeek-V3.
 
