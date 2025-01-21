@@ -1,3 +1,6 @@
+---
+license: mit
+---
 # DeepSeek-R1
 <!-- markdownlint-disable first-line-h1 -->
 <!-- markdownlint-disable html -->
