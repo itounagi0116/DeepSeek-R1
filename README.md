@@ -1,12 +1,14 @@
 ---
 license: mit
 library_name: transformers
+pipeline_tag: text-generation
 ---
 # DeepSeek-R1
 <!-- markdownlint-disable first-line-h1 -->
 <!-- markdownlint-disable html -->
 <!-- markdownlint-disable no-duplicate-header -->
-
+widget:
+- text: "Jens Peter Hansen kommer fra Danmark"
 <div align="center">
   <img src="https://github.com/deepseek-ai/DeepSeek-V2/blob/main/figures/logo.svg?raw=true" width="60%" alt="DeepSeek-V3" />
 </div>
