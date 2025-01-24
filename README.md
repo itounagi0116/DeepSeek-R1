@@ -1,7 +1,9 @@
 ---
 license: mit
 library_name: transformers
+pipeline_tag: text-generation
 ---
+
 # DeepSeek-R1
 <!-- markdownlint-disable first-line-h1 -->
 <!-- markdownlint-disable html -->
