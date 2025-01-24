@@ -46,7 +46,7 @@ library_name: transformers
 
 
 <p align="center">
-  <a href="https://github.com/deepseek-ai/DeepSeek-R1/blob/main/DeepSeek_R1.pdf"><b>Paper Link</b>👁️</a>
+  <a href="https://huggingface.co/papers/2501.12948"><b>Paper Link</b>👁️</a>
 </p>
 
 
