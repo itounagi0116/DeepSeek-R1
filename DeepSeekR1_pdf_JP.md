@@ -103,7 +103,7 @@ output = model.generate(prompt, temperature=0.6, top_p=0.95, max_length=1024)
 
 ## ライセンス
 - モデルウェイト: [Model License](LICENSE-MODEL)
-- コード: [MIT License](LICENSE-CODE)
+- コード: [MIT License](LICENSE)
 
 ## 引用
 ```bibtex
