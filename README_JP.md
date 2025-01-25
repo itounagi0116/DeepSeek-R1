@@ -177,7 +177,7 @@ DeepSeekプラットフォームでOpenAI互換APIも提供しています: [pla
 
 ### DeepSeek-R1モデル
 
-(下記一部はDeepSeek-V3のローカル実行方法の為huggingfaceにあるDeepSeek-R1に置き換えて下さい)以下のハードウェアとオープンソースソフトウェアを使用してローカルにデプロイ可能です：
+(下記一部はDeepSeek-V3のローカル実行方法の為huggingfaceにあるDeepSeek-R1に読み替えて下さい)以下のハードウェアとオープンソースソフトウェアを使用してローカルにデプロイ可能です：
 
 1. **DeepSeek-Inferデモ**: FP8/BF16推論用の簡易デモを提供
 2. **SGLang**: BF16/FP8推論モードを完全サポート（Multi-Token Predictionは[開発中](https://github.com/sgl-project/sglang/issues/2591)）
