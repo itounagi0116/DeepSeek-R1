@@ -177,105 +177,102 @@ DeepSeekプラットフォームでOpenAI互換APIも提供しています: [pla
 
 ### DeepSeek-R1モデル
 
-(下記一部はDeepSeek-V3のローカル実行方法の為huggingfaceにあるDeepSeek-R1に読み替えて下さい)以下のハードウェアとオープンソースソフトウェアを使用してローカルにデプロイ可能です：
+**Hugging FaceのDeepSeek-R1をローカルデプロイする際、以下のハードウェア/OSSが使用可能です：**
 
-1. **DeepSeek-Inferデモ**: FP8/BF16推論用の簡易デモを提供
-2. **SGLang**: BF16/FP8推論モードを完全サポート（Multi-Token Predictionは[開発中](https://github.com/sgl-project/sglang/issues/2591)）
-3. **LMDeploy**: ローカル/クラウド向け効率的なFP8/BF16推論
-4. **TensorRT-LLM**: BF16推論とINT4/8量子化をサポート（FP8対応予定）
-5. **vLLM**: FP8/BF16モードでテンソル並列/パイプライン並列をサポート
-6. **AMD GPU**: SGLang経由でAMD GPU上でBF16/FP8モード実行可能
-7. **Huawei Ascend NPU**: Huawei Ascendデバイスでの実行をサポート
+1. **DeepSeek-Inferデモ**: FP8/BF16推論用簡易デモ
+2. **SGLang**: BF16/FP8推論完全サポート（Multi-Token Predictionは[開発中](https://github.com/sgl-project/sglang/issues/2591)）
+3. **LMDeploy**: 効率的なFP8/BF16推論（ローカル/クラウド）
+4. **TensorRT-LLM**: BF16推論＆INT4/8量子化対応（FP8開発中）
+5. **vLLM**: FP8/BF16モードでテンソル並列/パイプライン並列を実現
+6. **AMD GPU**: SGLang経由でBF16/FP8モード実行可能
+7. **Huawei Ascend NPU**: Ascendデバイス対応
 
-FP8重みのみ公式提供（BF16が必要な場合は変換スクリプト使用）：
+公式提供FP8重みのみ（BF16変換要スクリプト）：
 ```shell
 cd inference
 python fp8_cast_bf16.py --input-fp8-hf-path /path/to/fp8_weights --output-bf16-hf-path /path/to/bf16_weights
 ```
 
-> **注**: Hugging Face Transformersの直接サポートは未対応
+> **重要**: Hugging Face Transformersの直接サポートは非対応
 
 ---
 
-### **6.1 DeepSeek-Inferデモでの推論（例）**
+### **6.1 DeepSeek-Inferデモでの実行例**
 
-#### モデル重み＆デモ準備
+#### 準備作業
 ```shell
-git clone https://github.com/deepseek-ai/DeepSeek-V3.git
-cd DeepSeek-V3/inference
+git clone https://huggingface.co/deepseek-ai/DeepSeek-R1
+cd DeepSeek-R1/inference
 pip install -r requirements.txt
 ```
 
 #### 重み変換
 ```shell
-python convert.py --hf-ckpt-path /path/to/DeepSeek-V3 --save-path /path/to/DeepSeek-V3-Demo --n-experts 256 --model-parallel 16
+python convert.py --hf-ckpt-path /path/to/DeepSeek-R1 --save-path /path/to/DeepSeek-R1-Demo --n-experts 256 --model-parallel 16
 ```
 
-#### 実行
+#### 実行方法
 対話モード：
 ```shell
-torchrun --nnodes 2 --nproc-per-node 8 --node-rank $RANK --master-addr $ADDR generate.py --ckpt-path /path/to/DeepSeek-V3-Demo --config configs/config_671B.json --interactive --temperature 0.7 --max-new-tokens 200
+torchrun --nnodes 2 --nproc-per-node 8 --node-rank $RANK --master-addr $ADDR generate.py --ckpt-path /path/to/DeepSeek-R1-Demo --config configs/config_r1.json --interactive --temperature 0.7 --max-new-tokens 200
 ```
 
 バッチ処理：
 ```shell
-torchrun --nnodes 2 --nproc-per-node 8 --node-rank $RANK --master-addr $ADDR generate.py --ckpt-path /path/to/DeepSeek-V3-Demo --config configs/config_671B.json --input-file $FILE
+torchrun --nnodes 2 --nproc-per-node 8 --node-rank $RANK --master-addr $ADDR generate.py --ckpt-path /path/to/DeepSeek-R1-Demo --config configs/config_r1.json --input-file $FILE
 ```
 
 ---
 
-### **6.2 SGLangでの推論（推奨）**
-[SGLang](https://github.com/sgl-project/sglang) v0.4.1が以下をサポート：
+### **6.2 SGLang実装（推奨）**
+[SGLang](https://github.com/sgl-project/sglang) v0.4.1対応機能：
 - MLA最適化
 - DP Attention
 - FP8（W8A8）＆FP8 KVキャッシュ
-- マルチノードテンソル並列（[2x H208例](https://github.com/sgl-project/sglang/tree/main/benchmark/deepseek_v3#example-serving-with-2-h208)）
+- マルチノードテンソル並列（[H208構成例](https://github.com/sgl-project/sglang/tree/main/benchmark/deepseek_r1)）
 - NVIDIA/AMD GPU両対応
 
 詳細手順：  
-https://github.com/sgl-project/sglang/tree/main/benchmark/deepseek_v3
+https://github.com/sgl-project/sglang/tree/main/benchmark/deepseek_r1
 
 ---
 
-### **6.3 LMDeployでの推論（推奨）**
-[LMDeploy](https://github.com/InternLM/lmdeploy)がオフライン/オンライン展開をサポート：
+### **6.3 LMDeploy実装（推奨）**
+[LMDeploy](https://github.com/InternLM/lmdeploy)対応事項：
 - PyTorch連携可能
-- ステップバイステップガイド：  
+- 実装ガイド：  
 https://github.com/InternLM/lmdeploy/issues/2960
 
 ---
 
-### **6.4 TensorRT-LLMでの推論（推奨）**
-[TensorRT-LLM](https://github.com/NVIDIA/TensorRT-LLM)カスタムブランチが以下をサポート：
+### **6.4 TensorRT-LLM実装（推奨）**
+[TensorRT-LLM](https://github.com/NVIDIA/TensorRT-LLM)専用ブランチ：
 - BF16/INT4/INT8量子化（FP8開発中）
-- 専用ブランチ：  
-https://github.com/NVIDIA/TensorRT-LLM/tree/deepseek/examples/deepseek_v3
+- カスタムブランチ：  
+https://github.com/NVIDIA/TensorRT-LLM/tree/deepseek/examples/deepseek_r1
 
 ---
 
-### **6.5 vLLMでの推論（推奨）**
-[vLLM](https://github.com/vllm-project/vllm) v0.6.6が特徴：
+### **6.5 vLLM実装（推奨）**
+[vLLM](https://github.com/vllm-project/vllm) v0.6.6対応：
 - FP8/BF16モード（NVIDIA/AMD GPU）
-- マルチマシンパイプライン並列
-- 詳細ガイド：  
-https://docs.vllm.ai/en/latest/serving/distributed_serving.html  
-機能改善計画：  
-https://github.com/vllm-project/vllm/issues/11539
+- 分散処理詳細：  
+https://docs.vllm.ai/en/latest/serving/distributed_serving.html
 
 ---
 
-### **6.6 AMD GPU推奨設定**
-AMDチームとの協業で実現した機能：
+### **6.6 AMD GPU最適設定**
+AMD公式連携機能：
 - SGLang経由のFP8/BF16完全サポート
-- 詳細手順は[6.3項](#63-推奨)参照
+- 実装手順：[6.3項](#63-推奨)参照
 
 ---
 
-### **6.7 Huawei Ascend NPU対応**
-Huawei Ascendコミュニティの[MindIE](https://www.hiascend.com/en/software/mindie)フレームワーク：
-- BF16版DeepSeek-V3を適応
-- 手順書：  
-https://modelers.cn/models/MindIE/deepseekv3
+### **6.7 Huawei Ascend対応**
+[MindIE](https://www.hiascend.com/en/software/mindie)フレームワーク：
+- BF16版DeepSeek-R1適応
+- 実装マニュアル：  
+https://modelers.cn/models/MindIE/deepseekr1
 
 ---
 
