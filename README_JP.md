@@ -295,6 +295,8 @@ vllm serve deepseek-ai/DeepSeek-R1-Distill-Qwen-32B --tensor-parallel-size 2 --m
 python3 -m sglang.launch_server --model deepseek-ai/DeepSeek-R1-Distill-Qwen-32B --trust-remote-code --tp 2
 ```
 
+---
+
 ### 使用上の推奨事項
 
 **DeepSeek-R1シリーズモデルを使用する際（ベンチマークを含む）は、以下の設定を遵守することを推奨します:**
