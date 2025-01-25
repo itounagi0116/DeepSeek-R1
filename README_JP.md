@@ -264,7 +264,7 @@ https://docs.vllm.ai/en/latest/serving/distributed_serving.html
 ### **6.6 AMD GPU最適設定**
 AMD公式連携機能：
 - SGLang経由のFP8/BF16完全サポート
-- 実装手順：[6.3項](6.3 LMDeploy実装（推奨）)参照
+- 実装手順：[6.3項](##6.3 LMDeploy実装（推奨）)参照
 
 ---
 
